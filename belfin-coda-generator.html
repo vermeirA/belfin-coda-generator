@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>BelFin CODA v2.x Generator</title>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+
+<style>
+:root{
+    --bg:#f3f6fb;
+    --surface:#ffffff;
+    --surface-soft:#f9fafb;
+    --primary:#185FA5;
+    --primary-dark:#0C447C;
+    --success:#057a55;
+    --danger:#dc2626;
+    --text:#111827;
+    --text-muted:#6b7280;
+    --border:#e5e7eb;
+    --radius:14px;
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    background:var(--bg);
+    font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif;
+    color:var(--text);
+    padding:2rem 1rem;
+    line-height:1.5;
+}
+
+.container{
+    max-width:1400px;
+    margin:auto;
+    background:var(--surface);
+    border-radius:20px;
+    border:1px solid var(--border);
+    overflow:hidden;
+    box-shadow:0 20px 40px rgba(0,0,0,.08);
+}
+
+header{
+    padding:1.5rem 2rem;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-bottom:1px solid var(--border);
+    background:#fff;
+}
+
+header h2{
+    font-size:1.3rem;
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:var(--primary);
+}
+
+.stats{
+    display:flex;
+    gap:10px;
+}
+
+.badge{
+    background:#e8f1fb;
+    color:var(--primary-dark);
+    border:1px solid #bfd4ee;
+    padding:6px 12px;
+    border-radius:999px;
+    font-size:12px;
+    font-weight:700;
+}
+
+.tab-bar{
+    display:flex;
+    background:var(--surface-soft);
+    border-bottom:1px solid var(--border);
+}
+
+.tab{
+    padding:1rem 1.5rem;
+    cursor:pointer;
+    font-size:14px;
+    font-weight:600;
+    color:var(--text-muted);
+    border-bottom:3px solid transparent;
+    transition:.2s;
+}
+
+.tab:hover{
+    background:#fff;
+}
+
+.tab.active{
+    background:#fff;
+    color:var(--primary);
+    border-bottom-color:var(--primary);
+}
+
+.tab-panel{
+    display:none;
+    padding:2rem;
+}
+
+.tab-panel.active{
+    display:block;
+}
+
+.section{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:1.5rem;
+    margin-bottom:1.5rem;
+}
+
+.section h3{
+    font-size:13px;
+    text-transform:uppercase;
+    letter-spacing:.04rem;
+    margin-bottom:1rem;
+    color:var(--text-muted);
+    border-bottom:1px solid #f1f5f9;
+    padding-bottom:.75rem;
+}
+
+.grid2{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:1rem;
+}
+
+.grid3{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:1rem;
+}
+
+.field{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+}
+
+.field label{
+    font-size:11px;
+    font-weight:700;
+    color:var(--text-muted);
+}
+
+.field input,
+.field select,
+.field textarea{
+    width:100%;
+    border:1px solid var(--border);
+    background:#f9fafb;
+    border-radius:10px;
+    padding:10px 12px;
+    font-size:13px;
+    transition:.2s;
+}
+
+.field textarea{
+    resize:vertical;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus{
+    outline:none;
+    border-color:var(--primary);
+    background:#fff;
+    box-shadow:0 0 0 4px rgba(24,95,165,.12);
+}
+
+.notice{
+    background:#eff6ff;
+    border:1px solid #bfdbfe;
+    color:#1d4ed8;
+    border-radius:12px;
+    padding:1rem;
+    margin-bottom:1rem;
+    font-size:13px;
+}
+
+.tip{
+    font-size:12px;
+    color:var(--text-muted);
+    margin-top:8px;
+}
+
+.row-toolbar{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:1rem;
+}
+
+.btn{
+    border:1px solid var(--border);
+    background:#fff;
+    padding:10px 16px;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:13px;
+    font-weight:600;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    transition:.2s;
+}
+
+.btn:hover{
+    background:#f9fafb;
+}
+
+.btn-primary{
+    background:var(--primary);
+    color:#fff;
+    border-color:var(--primary);
+}
+
+.btn-primary:hover{
+    background:var(--primary-dark);
+}
+
+.btn-sm{
+    padding:8px 12px;
+}
+
+.tx-row{
+    display:grid;
+    grid-template-columns:40px 1fr 1fr 1fr 90px 110px 1fr 34px;
+    gap:8px;
+    align-items:end;
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:10px;
+    margin-bottom:8px;
+}
+
+.del-btn{
+    width:34px;
+    height:34px;
+    border-radius:10px;
+    border:1px solid #fecaca;
+    background:#fef2f2;
+    color:var(--danger);
+    cursor:pointer;
+}
+
+.output-box{
+    background:#111827;
+    color:#10b981;
+    border-radius:12px;
+    padding:1.25rem;
+    font-family:"JetBrains Mono",monospace;
+    font-size:11px;
+    line-height:1.6;
+    white-space:pre;
+    overflow:auto;
+    max-height:500px;
+}
+
+.copy-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:1rem;
+}
+
+hr{
+    border:none;
+    border-top:1px solid var(--border);
+    margin:1.5rem 0;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+    <h2>
+        <i class="ti ti-file-invoice"></i>
+        BelFin CODA v2.x Generator
+    </h2>
+
+    <div class="stats">
+        <div id="tx-count" class="badge">0 transactions</div>
+        <div id="balance-badge" class="badge">Balance: 0 EUR</div>
+    </div>
+</header>
+
+<div class="tab-bar">
+    <div class="tab active" onclick="switchTab('header',event)">Header & Account</div>
+    <div class="tab" onclick="switchTab('transactions',event)">Transactions</div>
+    <div class="tab" onclick="switchTab('output',event)">Generated File</div>
+</div>
+
+<div id="tab-header" class="tab-panel active">
+
+<div class="section">
+<h3>Record 0 — File Header</h3>
+
+<div class="grid3" style="margin-bottom:1rem">
+    <div class="field">
+        <label>Creation Date</label>
+        <input id="h_date" type="date">
+    </div>
+
+    <div class="field">
+        <label>Bank Identification</label>
+        <input id="h_bank" maxlength="3" value="999">
+    </div>
+
+    <div class="field">
+        <label>File Reference</label>
+        <input id="h_fileref" maxlength="10" value="REF0000001">
+    </div>
+</div>
+
+<div class="grid2">
+    <div class="field">
+        <label>Addressee Name</label>
+        <input id="h_name" maxlength="26" value="MY COMPANY NV">
+    </div>
+
+    <div class="field">
+        <label>Bank BIC</label>
+        <input id="h_bic" maxlength="11" value="GEBABEBB">
+    </div>
+</div>
+
+<div class="grid3" style="margin-top:1rem">
+    <div class="field">
+        <label>Company Number</label>
+        <input id="h_company" maxlength="11" value="01234567890">
+    </div>
+
+    <div class="field">
+        <label>Application Code</label>
+        <input id="h_appcode" maxlength="5" value="00000">
+    </div>
+
+    <div class="field">
+        <label>Duplicate?</label>
+        <select id="h_dup">
+            <option value=" ">No</option>
+            <option value="D">Yes (D)</option>
+        </select>
+    </div>
+</div>
+</div>
+
+<div class="section">
+<h3>Record 1 — Old Balance</h3>
+
+<div class="grid2" style="margin-bottom:1rem">
+    <div class="field">
+        <label>Account Structure</label>
+        <select id="b_struct">
+            <option value="0">0 — Belgian BBAN</option>
+            <option value="2" selected>2 — Belgian IBAN</option>
+            <option value="1">1 — Foreign BBAN</option>
+            <option value="3">3 — Foreign IBAN</option>
+        </select>
+    </div>
+
+    <div class="field">
+        <label>Statement Sequence Number</label>
+        <input id="b_seqno" maxlength="3" value="001">
+    </div>
+</div>
+
+<div class="grid2" style="margin-bottom:1rem">
+    <div class="field">
+        <label>Account Number</label>
+        <input id="b_acct" maxlength="34" value="BE68539007547034">
+    </div>
+
+    <div class="field">
+        <label>Currency</label>
+        <input id="b_ccy" maxlength="3" value="EUR">
+    </div>
+</div>
+
+<div class="grid3">
+    <div class="field">
+        <label>Old Balance Sign</label>
+        <select id="b_oldsign">
+            <option value="0">0 — Credit</option>
+            <option value="1">1 — Debit</option>
+        </select>
+    </div>
+
+    <div class="field">
+        <label>Old Balance (EUR)</label>
+        <input id="b_oldbal" type="number" step="0.001" min="0" value="1000.000" placeholder="0.000">
+    </div>
+
+    <div class="field">
+        <label>Old Balance Date</label>
+        <input id="b_olddate" type="date">
+    </div>
+</div>
+
+<div class="grid2" style="margin-top:1rem">
+    <div class="field">
+        <label>Account Holder Name</label>
+        <input id="b_holdername" maxlength="26" value="MY COMPANY NV">
+    </div>
+
+    <div class="field">
+        <label>Account Description</label>
+        <input id="b_acctdesc" maxlength="35" value="CURRENT ACCOUNT EUR">
+    </div>
+</div>
+
+</div>
+</div>
+
+<div id="tab-transactions" class="tab-panel">
+
+<div class="notice">
+Each row generates record 2.1 / 2.2 / 2.3 automatically.
+</div>
+
+<div class="row-toolbar">
+    <button class="btn btn-primary btn-sm" onclick="addTx()">
+        <i class="ti ti-plus"></i>
+        Add Transaction
+    </button>
+
+    <button class="btn btn-sm" onclick="addBulk()">
+        <i class="ti ti-stack-2"></i>
+        Add 5 Random
+    </button>
+</div>
+
+<div style="font-size:11px;color:#6b7280;display:grid;grid-template-columns:40px 1fr 1fr 1fr 90px 110px 1fr 34px;gap:8px;margin-bottom:6px;padding:0 6px">
+<span>#</span>
+<span>bank ref</span>
+<span>amount</span>
+<span>value date</span>
+<span>sign</span>
+<span>tx code</span>
+<span>communication</span>
+<span></span>
+</div>
+
+<div id="tx-list"></div>
+
+<hr>
+
+<div class="section">
+<h3>Counterparty Defaults</h3>
+
+<div class="grid3">
+    <div class="field">
+        <label>Counterparty IBAN</label>
+        <input id="cp_acct" value="BE71096123456769">
+    </div>
+
+    <div class="field">
+        <label>Counterparty Currency</label>
+        <input id="cp_ccy" maxlength="3" value="EUR">
+    </div>
+
+    <div class="field">
+        <label>Counterparty Name</label>
+        <input id="cp_name" value="SUPPLIER NV">
+    </div>
+</div>
+
+<div class="field" style="margin-top:1rem">
+    <label>Counterparty Communication Continuation</label>
+    <input id="cp_comm" maxlength="43">
+</div>
+
+<div class="grid3" style="margin-top:1rem">
+    <div class="field">
+        <label>Communication Type</label>
+        <select id="comm_type">
+            <option value="0">0 — Unstructured</option>
+            <option value="1">1 — Structured</option>
+        </select>
+    </div>
+
+    <div class="field">
+        <label>Structured Communication Code</label>
+        <input id="comm_code" maxlength="3" placeholder="101">
+    </div>
+
+    <div class="field">
+        <label>R Transaction Type</label>
+        <select id="r_type">
+            <option value=" ">blank</option>
+            <option value="1">1 Reject</option>
+            <option value="2">2 Return</option>
+            <option value="3">3 Refund</option>
+            <option value="4">4 Reversal</option>
+            <option value="5">5 Cancellation</option>
+        </select>
+    </div>
+</div>
+
+<div class="grid2" style="margin-top:1rem">
+    <div class="field">
+        <label>ISO Reason Return Code</label>
+        <input id="r_code" maxlength="4" placeholder="AC01">
+    </div>
+
+    <div class="field">
+        <label>Counterparty BIC</label>
+        <input id="cp_bic" value="GEBABEBB">
+    </div>
+</div>
+</div>
+
+<div class="section">
+<h3>Record 8 — New Balance</h3>
+
+<div class="grid3">
+    <div class="field">
+        <label>New Balance Sign</label>
+        <select id="nb_sign">
+            <option value="0">0 — Credit</option>
+            <option value="1">1 — Debit</option>
+        </select>
+    </div>
+
+    <div class="field">
+        <label>New Balance (EUR)</label>
+        <input id="nb_bal" type="number" step="0.001" min="0" value="1050.000" placeholder="0.000" readonly style="background:#f0f4f8;color:#6b7280;cursor:default">
+    </div>
+
+    <div class="field">
+        <label>New Balance Date</label>
+        <input id="nb_date" type="date">
+    </div>
+</div>
+</div>
+
+</div>
+
+<div id="tab-output" class="tab-panel">
+
+<div class="copy-row">
+<div>
+<button class="btn btn-primary" onclick="generateCODA()">
+    <i class="ti ti-refresh"></i>
+    Generate CODA
+</button>
+
+<button class="btn" onclick="copyCODA()">
+    <i class="ti ti-copy"></i>
+    Copy
+</button>
+
+<button class="btn" onclick="downloadCODA()">
+    <i class="ti ti-download"></i>
+    Download
+</button>
+</div>
+
+<span id="gen-status" style="font-size:12px;color:#6b7280"></span>
+</div>
+
+<div class="output-box" id="coda-output">
+Click "Generate CODA" to build the file.
+</div>
+
+</div>
+
+</div>
+
+<script>
+let transactions = [];
+let txCounter = 0;
+
+function switchTab(name,event){
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+
+    document.getElementById('tab-'+name).classList.add('active');
+    event.currentTarget.classList.add('active');
+
+    if(name==='output') generateCODA();
+}
+
+function pad(str, len, char=' ', right=false){
+    str = String(str||'').substring(0,len);
+    return right ? str.padEnd(len,char) : str.padStart(len,char);
+}
+
+function padR(str,len){ return pad(str,len,' ',true); }
+function padN(str,len){ return pad(str,len,'0'); }
+
+function v(id){
+    return (document.getElementById(id)||{}).value || '';
+}
+
+function updateBadges(){
+
+    const count =
+        document.querySelectorAll('#tx-list .tx-row').length;
+
+    document.getElementById('tx-count').textContent =
+        count + ' transaction' + (count !== 1 ? 's' : '');
+
+    updateBalance();
+}
+
+function addTx(data){
+    txCounter++;
+
+    const d = data || {};
+    const id = 'tx-'+txCounter;
+
+    const div = document.createElement('div');
+    div.className='tx-row';
+    div.id=id;
+
+    div.innerHTML = `
+        <div class="field">
+            <input value="${document.querySelectorAll('#tx-list .tx-row').length+1}" disabled>
+        </div>
+
+        <div class="field">
+            <input class="tx-bankref" maxlength="21"
+            value="${d.bankref || ('BREF'+txCounter).padEnd(21,' ')}">
+        </div>
+
+        <div class="field">
+            <input class="tx-amount" type="number" step="0.001" min="0"
+            value="${amountToDecimal(d.amount || '000000010000000')}" placeholder="0.000">
+        </div>
+
+        <div class="field">
+            <input class="tx-valdate" type="date"
+            value="${codaDateToISO(d.valdate || '')}">
+        </div>
+
+        <div class="field">
+            <select class="tx-sign">
+                <option value="0" ${d.sign==='0'?'selected':''}>0 Credit</option>
+                <option value="1" ${d.sign==='1'?'selected':''}>1 Debit</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <input class="tx-txcode" maxlength="8"
+            value="${d.txcode || '02500000'}">
+        </div>
+
+        <div class="field">
+            <input class="tx-comm" maxlength="53"
+            value="${d.comm || ''}">
+        </div>
+
+        <button class="del-btn" onclick="removeTx('${id}')">
+            <i class="ti ti-trash"></i>
+        </button>
+    `;
+
+    document.getElementById('tx-list').appendChild(div);
+
+    // Live recalc when amount or sign changes in this row
+    div.querySelector('.tx-amount').addEventListener('input', updateBadges);
+    div.querySelector('.tx-sign').addEventListener('change', updateBadges);
+
+    transactions.push(id);
+
+    updateBadges();
+}
+
+function removeTx(id){
+    document.getElementById(id)?.remove();
+    transactions = transactions.filter(t=>t!==id);
+    updateBadges();
+}
+
+function collectRows(){
+    const rows=[];
+
+    document.querySelectorAll('#tx-list .tx-row').forEach(div=>{
+        const amountRaw = parseFloat(div.querySelector('.tx-amount').value || '0') || 0;
+        const valdateISO = div.querySelector('.tx-valdate').value || '';
+        rows.push({
+            bankref:div.querySelector('.tx-bankref').value || '',
+            amount:decimalToCoda(amountRaw),
+            valdate:isoToCodaDate(valdateISO),
+            sign:div.querySelector('.tx-sign').value || '0',
+            txcode:div.querySelector('.tx-txcode').value || '',
+            comm:div.querySelector('.tx-comm').value || ''
+        });
+    });
+
+    return rows;
+}
+
+function buildRecord0(){
+    let line='';
+
+    line+='0';
+    line+='0000';
+    line+=isoToCodaDate(v('h_date'));
+    line+=padN(v('h_bank'),3);
+    line+='05';
+    line+=(v('h_dup')==='D'?'D':' ');
+    line+=padR('',7);
+    line+=padR(v('h_fileref'),10);
+    line+=padR(v('h_name').toUpperCase(),26);
+    line+=padR(v('h_bic'),11);
+    line+=padN(v('h_company'),11);
+    line+=' ';
+    line+=padN(v('h_appcode'),5);
+    line+=padR('',16);
+    line+=padR('',16);
+    line+=padR('',7);
+    line+='2';
+
+    return line.substring(0,128);
+}
+
+function buildRecord1(){
+    const struct = v('b_struct') || '2';
+
+    let acctZone='';
+
+    if(struct==='2'){
+        acctZone =
+            padR(v('b_acct'),31) +
+            padR(v('b_ccy'),3) +
+            ' ';
+    }else{
+        acctZone =
+            padR(v('b_acct'),34) +
+            padR(v('b_ccy'),3);
+    }
+
+    acctZone = padR(acctZone.substring(0,37),37);
+
+    let line='';
+
+    line+='1';
+    line+=struct;
+    line+=padN(v('b_seqno'),3);
+    line+=acctZone;
+    line+=v('b_oldsign');
+    line+=decimalToCoda(parseFloat(v('b_oldbal')||'0')||0);
+    line+=isoToCodaDate(v('b_olddate'));
+    line+=padR(v('b_holdername').toUpperCase(),26);
+    line+=padR(v('b_acctdesc').toUpperCase(),35);
+    line+=padN(v('b_seqno'),3);
+
+    return line.substring(0,128);
+}
+
+function buildMovementRecords(rows){
+    const lines=[];
+
+    rows.forEach((row,i)=>{
+
+        const seq = padN(i+1,4);
+        const det = '0000';
+
+        let r21='';
+
+        r21+='2';
+        r21+='1';
+        r21+=seq;
+        r21+=det;
+        r21+=padR(row.bankref,21);
+        r21+=row.sign;
+        r21+=padN(row.amount,15);
+        r21+=padN(row.valdate,6);
+        r21+=padN(row.txcode,8);
+        r21+=v('comm_type');
+        r21+=padR(row.comm,53);
+        r21+=isoToCodaDate(v('nb_date'));
+        r21+=padN(v('b_seqno'),3);
+        r21+='0';
+        r21+='1';
+        r21+=' ';
+        r21+='1';
+
+        lines.push(r21.substring(0,128));
+
+        let r22='';
+
+        r22+='2';
+        r22+='2';
+        r22+=seq;
+        r22+=det;
+        r22+=padR('',53);
+        r22+=padR('',35);
+        r22+=padR(v('cp_bic'),11);
+        r22+='   ';
+        r22+=v('r_type');
+        r22+=padR(v('r_code'),4);
+        r22+='        ';
+        r22+='1';
+        r22+=' ';
+        r22+='1';
+
+        lines.push(r22.substring(0,128));
+
+        let r23='';
+
+        r23+='2';
+        r23+='3';
+        r23+=seq;
+        r23+=det;
+        r23+=padR(v('cp_acct')+' '+v('cp_ccy'),37);
+        r23+=padR(v('cp_name'),35);
+        r23+=padR(v('cp_comm'),43);
+        r23+='0';
+        r23+=' ';
+        r23+='0';
+
+        lines.push(r23.substring(0,128));
+    });
+
+    return lines;
+}
+
+function buildRecord8(movCount){
+
+    let acctZone='';
+
+    acctZone =
+        padR(v('b_acct'),31) +
+        padR(v('b_ccy'),3) +
+        ' ';
+
+    acctZone = padR(acctZone.substring(0,37),37);
+
+    let line='';
+
+    line+='8';
+    line+=padN(v('b_seqno'),3);
+    line+=acctZone;
+    line+=v('nb_sign');
+    line+=decimalToCoda(parseFloat(v('nb_bal')||'0')||0);
+    line+=isoToCodaDate(v('nb_date'));
+    line+=padR('',7);
+    line+=padN(movCount,8);
+    line+=padR('',60);
+
+    return line.substring(0,128);
+}
+
+function buildRecord9(totalLines){
+    let line='';
+
+    line+='9';
+    line+=padN(totalLines,6);
+    line+=padN(0,6);
+    line+=padR('',116);
+
+    return line.substring(0,128);
+}
+
+function generateCODA(){
+
+    const rows = collectRows();
+
+    const lines=[];
+
+    lines.push(buildRecord0());
+    lines.push(buildRecord1());
+
+    buildMovementRecords(rows).forEach(l=>lines.push(l));
+
+    lines.push(buildRecord8(rows.length));
+    lines.push(buildRecord9(lines.length+1));
+
+    const output = lines.join('\r\n');
+
+    document.getElementById('coda-output').textContent = output;
+
+    document.getElementById('gen-status').textContent =
+        `${lines.length} records, ${rows.length} transactions`;
+
+    return output;
+}
+
+function copyCODA(){
+    navigator.clipboard.writeText(
+        document.getElementById('coda-output').textContent
+    );
+}
+
+function updateBalance(){
+
+    let oldBal = parseFloat(v('b_oldbal') || '0') || 0;
+
+    if(v('b_oldsign') === '1'){
+        oldBal = -oldBal;
+    }
+
+    let total = oldBal;
+
+    document.querySelectorAll('#tx-list .tx-row').forEach(row => {
+
+        const amount = parseFloat(row.querySelector('.tx-amount').value || '0') || 0;
+        const sign = row.querySelector('.tx-sign').value;
+
+        if(sign === '1'){
+            total -= amount;
+        }else{
+            total += amount;
+        }
+    });
+
+    document.getElementById('nb_sign').value =
+        total >= 0 ? '0' : '1';
+
+    document.getElementById('nb_bal').value =
+        Math.abs(total).toFixed(3);
+
+    document.getElementById('balance-badge').textContent =
+        'Balance: ' +
+        total.toLocaleString('nl-BE', {
+            minimumFractionDigits: 3,
+            maximumFractionDigits: 3
+        }) +
+        ' ' +
+        v('b_ccy');
+}
+
+function downloadCODA(){
+
+    const txt = generateCODA();
+
+    const blob = new Blob([txt],{type:'text/plain'});
+
+    const a = document.createElement('a');
+
+    a.href = URL.createObjectURL(blob);
+
+    a.download =
+        'coda_' + (isoToCodaDate(v('h_date')) || 'output') + '.cod';
+
+    a.click();
+}
+
+function addBulk(){
+
+    const comms = [
+        'INVOICE 2026-001',
+        'SALARY MAY',
+        'SERVICE FEE',
+        'RENT PAYMENT',
+        'REFUND'
+    ];
+
+    for(let i=0;i<5;i++){
+
+        const amt = ((Math.floor(Math.random()*9999999)+100)/1000).toFixed(3);
+
+        addTx({
+            amount: decimalToCoda(amt),
+            sign:Math.random()>.5?'0':'1',
+            valdate:isoToCodaDate(v('nb_date')),
+            comm:comms[Math.floor(Math.random()*comms.length)]
+        });
+    }
+}
+
+// ── Conversion helpers ──────────────────────────────────────────────────────
+
+// DDMMYY (CODA) → YYYY-MM-DD (ISO for <input type="date">)
+function codaDateToISO(ddmmyy){
+    if(!ddmmyy || ddmmyy.length < 6) return '';
+    const dd = ddmmyy.slice(0,2);
+    const mm = ddmmyy.slice(2,4);
+    const yy = ddmmyy.slice(4,6);
+    const year = parseInt(yy,10) >= 0 ? '20'+yy : '19'+yy;
+    return `${year}-${mm}-${dd}`;
+}
+
+// YYYY-MM-DD → DDMMYY
+function isoToCodaDate(iso){
+    if(!iso || iso.length < 10) return '000000';
+    const [y,m,d] = iso.split('-');
+    return (d||'00')+(m||'00')+(y||'0000').slice(-2);
+}
+
+// 15-digit integer string (e.g. "000000010000000" = 10000.000) → decimal string
+function amountToDecimal(coda15){
+    const n = parseInt(coda15||'0',10)||0;
+    return (n/1000).toFixed(3);
+}
+
+// decimal number → 15-digit CODA string (3 implied decimals)
+function decimalToCoda(dec){
+    const cents = Math.round((parseFloat(dec)||0)*1000);
+    return String(Math.abs(cents)).padStart(15,'0');
+}
+
+// ── Init ────────────────────────────────────────────────────────────────────
+
+const todayISO = new Date().toISOString().split('T')[0];
+
+document.getElementById('h_date').value     = todayISO;
+document.getElementById('nb_date').value    = todayISO;
+document.getElementById('b_olddate').value  = todayISO;
+
+// Recalc balance when old-balance fields change
+document.getElementById('b_oldbal').addEventListener('input',  updateBadges);
+document.getElementById('b_oldsign').addEventListener('change', updateBadges);
+
+addTx({
+    bankref:'BREF000000001',
+    amount:'000000010000000',
+    valdate:'270526',
+    sign:'0',
+    txcode:'02500000',
+    comm:'PAYMENT RECEIVED'
+});
+
+addTx({
+    bankref:'BREF000000002',
+    amount:'000000000250000',
+    valdate:'270526',
+    sign:'1',
+    txcode:'03000000',
+    comm:'SUPPLIER INVOICE 001'
+});
+</script>
+
+</body>
+</html>
